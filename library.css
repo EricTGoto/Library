@@ -42,5 +42,7 @@ footer {
 }
 
 .bookCard {
-    font-size: 15px;
+    font-size: 20px;
+    width: 150px;
+    height: 100px;
 }

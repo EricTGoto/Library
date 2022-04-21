@@ -4,7 +4,7 @@ function Book(title, author, read=false) {
     this.title = title;
     this.author = author;
     this.read = read;
-    this.bookNumber = myLibrary.length;
+    this.bookNumber = Math.random() * 10000;
 }
 
 function addBookToLibrary(e) {
@@ -19,8 +19,19 @@ function addBookToLibrary(e) {
 function displayBook(book) {
     // create book "cards" for every book in myLibrary
     const bookCard = document.createElement("div");
-    bookCard.textContent = `${book.title} ${book.author}`;
-    body.appendChild(bookCard);
+    bookCard.classList.add("bookCard");
+    
+    const bookCardTitle = document.createElement("div");
+    bookCardTitle.textContent = `Title: ${book.title}`;
+    const bookCardAuthor = document.createElement("div");
+    bookCardAuthor.textContent = `Author: ${book.author}`
+    const bookCardDeleteButton = document.createElement("button")
+    bookCardDeleteButton.textContent = "X";
+    
+    bookCard.appendChild(bookCardTitle);
+    bookCard.appendChild(bookCardAuthor);
+    bookCard.appendChild(bookCardDeleteButton);
+    content.appendChild(bookCard);
 }
 
 function deleteBook(book) {
@@ -30,5 +41,6 @@ function deleteBook(book) {
 const submitBookButton = document.querySelector(".submitButton")
 const body = document.querySelector("body");
 const titleInput = document.querySelector('#title');
-const authorInput = document.querySelector('#author')
+const authorInput = document.querySelector('#author');
+const content = document.querySelector('.content');
 submitBookButton.addEventListener("click", addBookToLibrary);
