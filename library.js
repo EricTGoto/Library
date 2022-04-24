@@ -1,5 +1,29 @@
 let myLibrary = [];
 
+// UI declarations
+const submitBookButton = document.querySelector(".submit-button")
+const addBookButton = document.querySelector(".add-button");
+const body = document.querySelector("body");
+const titleInput = document.querySelector('#title');
+const authorInput = document.querySelector('#author');
+const titleLabel = document.querySelector('title-label');
+const content = document.querySelector('.content');
+const modal = document.querySelector(".modal")
+const modalForm = document.querySelector(".modal-form");
+
+modal.addEventListener("click", closeModal);
+modalForm.addEventListener("click", stopBubbling);
+addBookButton.addEventListener("click", openModal);
+submitBookButton.addEventListener("click", addBookToLibrary);
+
+function stopBubbling(e) {
+    e.stopPropagation();
+}
+
+function closeModal() {
+    modal.style.display = "none";
+}
+
 function Book(title, author, read=false) {
     this.title = title;
     this.author = author;
@@ -42,10 +66,7 @@ function deleteBook(e) {
     cardToDelete.remove();
 }
 
+function openModal() {
+    modal.style.display = "flex";
+}
 
-const submitBookButton = document.querySelector(".submitButton")
-const body = document.querySelector("body");
-const titleInput = document.querySelector('#title');
-const authorInput = document.querySelector('#author');
-const content = document.querySelector('.content');
-submitBookButton.addEventListener("click", addBookToLibrary);
