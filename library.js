@@ -12,10 +12,12 @@ const content = document.querySelector('.content');
 const modal = document.querySelector(".modal")
 const modalForm = document.querySelector(".modal-form");
 const inputs = document.querySelectorAll('input');
+const form = document.querySelector('.book-form');
+
 modal.addEventListener("click", closeModal);
 modalForm.addEventListener("click", stopBubbling);
 addBookButton.addEventListener("click", openModal);
-submitBookButton.addEventListener("onsubmit", addBookToLibrary);
+form.addEventListener("submit", addBookToLibrary);
 
 function stopBubbling(e) {
     e.stopPropagation();
