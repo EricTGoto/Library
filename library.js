@@ -6,15 +6,16 @@ const addBookButton = document.querySelector(".add-button");
 const body = document.querySelector("body");
 const titleInput = document.querySelector('#title');
 const authorInput = document.querySelector('#author');
+const pagesInput = document.querySelector('#pages')
 const titleLabel = document.querySelector('title-label');
 const content = document.querySelector('.content');
 const modal = document.querySelector(".modal")
 const modalForm = document.querySelector(".modal-form");
-
+const inputs = document.querySelectorAll('input');
 modal.addEventListener("click", closeModal);
 modalForm.addEventListener("click", stopBubbling);
 addBookButton.addEventListener("click", openModal);
-submitBookButton.addEventListener("click", addBookToLibrary);
+submitBookButton.addEventListener("onsubmit", addBookToLibrary);
 
 function stopBubbling(e) {
     e.stopPropagation();
@@ -38,6 +39,7 @@ function addBookToLibrary(e) {
     titleInput.value = "";
     authorInput.value = "";
     displayBook(newBook);
+    closeModal();
 }
 
 function displayBook(book) {
