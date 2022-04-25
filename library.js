@@ -48,6 +48,8 @@ function updateBooks() {
     // create book "cards" for every book in myLibrary
     
     myLibrary.forEach(book => {
+
+        if (document.querySelector(`[class="bookCard ${book.bookNumber}"`)) {return true};
         let bookCard = document.createElement("div");
         bookCard.classList.add("bookCard");
         bookCard.classList.add(book.bookNumber)
