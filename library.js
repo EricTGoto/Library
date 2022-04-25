@@ -49,6 +49,7 @@ function updateBooks() {
     
     myLibrary.forEach(book => {
 
+        // skips creating a new book card for books already in the contents section
         if (document.querySelector(`[class="bookCard ${book.bookNumber}"`)) {return true};
         let bookCard = document.createElement("div");
         bookCard.classList.add("bookCard");
@@ -69,10 +70,9 @@ function updateBooks() {
 }
 
 function deleteBook(e) {
-    console.log(e.target.parentElement.className)
     const cardClass = e.target.parentElement.className.split(" ")[1];
     const cardToDelete = document.querySelector(`[class="bookCard ${cardClass}"`);
-    myLibrary.filter(book => book.bookNumber == cardClass);
+    myLibrary = myLibrary.filter(book => book.bookNumber != parseInt(cardClass));
     cardToDelete.remove();
 }
 
