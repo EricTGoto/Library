@@ -40,26 +40,30 @@ function addBookToLibrary(e) {
     myLibrary.push(newBook);
     titleInput.value = "";
     authorInput.value = "";
-    displayBook(newBook);
+    updateBooks()
     closeModal();
 }
 
-function displayBook(book) {
+function updateBooks() {
     // create book "cards" for every book in myLibrary
-    const bookCard = document.createElement("div");
-    bookCard.classList.add("bookCard");
-    bookCard.classList.add(book.bookNumber)
-    const bookCardTitle = document.createElement("div");
-    bookCardTitle.textContent = `Title: ${book.title}`;
-    const bookCardAuthor = document.createElement("div");
-    bookCardAuthor.textContent = `Author: ${book.author}`
-    const bookCardDeleteButton = document.createElement("button")
-    bookCardDeleteButton.textContent = "X";
-    bookCardDeleteButton.addEventListener("click", deleteBook)
-    bookCard.appendChild(bookCardTitle);
-    bookCard.appendChild(bookCardAuthor);
-    bookCard.appendChild(bookCardDeleteButton);
-    content.appendChild(bookCard);
+    
+    myLibrary.forEach(book => {
+        let bookCard = document.createElement("div");
+        bookCard.classList.add("bookCard");
+        bookCard.classList.add(book.bookNumber)
+        let bookCardTitle = document.createElement("div");
+        bookCardTitle.textContent = `Title: ${book.title}`;
+        let bookCardAuthor = document.createElement("div");
+        bookCardAuthor.textContent = `Author: ${book.author}`
+        let bookCardDeleteButton = document.createElement("button")
+        bookCardDeleteButton.textContent = "X";
+        bookCardDeleteButton.addEventListener("click", deleteBook)
+        bookCard.appendChild(bookCardTitle);
+        bookCard.appendChild(bookCardAuthor);
+        bookCard.appendChild(bookCardDeleteButton);
+        content.appendChild(bookCard);
+    });
+    
 }
 
 function deleteBook(e) {
@@ -74,3 +78,9 @@ function openModal() {
     modal.style.display = "flex";
 }
 
+myLibrary.push(new Book("weubb", "wiwi"))
+myLibrary.push(new Book("we123123ubb", "wiw123123i"))
+myLibrary.push(new Book("weubb", "wiwi"))
+myLibrary.push(new Book("we123123ubb", "wiw123123i"))
+
+updateBooks();

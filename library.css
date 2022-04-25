@@ -41,11 +41,7 @@ footer {
     align-self: flex-end;
 }
 
-.bookCard {
-    font-size: 20px;
-    width: 150px;
-    height: 100px;
-}
+
 
 .modal {
     display: none;
@@ -107,3 +103,18 @@ input {
     padding: 6px;
     margin-top: 5px;
 }
+
+.content {
+    padding: 50px;
+    display: grid;
+    gap: 20px;
+    grid-template: repeat(3, 1fr) / repeat(4, 1fr);
+}
+
+.bookCard {
+    font-size: 30px;
+    width: 1fr;
+    height: 1fr;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
