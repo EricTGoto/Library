@@ -46,9 +46,7 @@ function addBookToLibrary(e) {
 
 function updateBooks() {
     // create book "cards" for every book in myLibrary
-    
     myLibrary.forEach(book => {
-
         // skips creating a new book card for books already in the contents section
         if (document.querySelector(`[class="bookCard ${book.bookNumber}"`)) {return true};
         let bookCard = document.createElement("div");
@@ -58,15 +56,14 @@ function updateBooks() {
         bookCardTitle.textContent = `Title: ${book.title}`;
         let bookCardAuthor = document.createElement("div");
         bookCardAuthor.textContent = `Author: ${book.author}`
-        let bookCardDeleteButton = document.createElement("button")
-        bookCardDeleteButton.textContent = "X";
+        let bookCardDeleteButton = document.createElement("div")
+        bookCardDeleteButton.classList.add("close");
         bookCardDeleteButton.addEventListener("click", deleteBook)
         bookCard.appendChild(bookCardTitle);
         bookCard.appendChild(bookCardAuthor);
         bookCard.appendChild(bookCardDeleteButton);
         content.appendChild(bookCard);
     });
-    
 }
 
 function deleteBook(e) {

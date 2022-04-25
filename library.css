@@ -7,7 +7,7 @@ html, body {
 body {
     height: 100%;
     display: grid;
-    grid-template-columns: 250px 1fr;
+    grid-template-columns: 200px 1fr;
 }
 
 .sidebar {
@@ -23,9 +23,22 @@ body {
     width: auto;
 }
 
+.buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
 .add-button {
-    height: 50px;
+    display: block;
+    height: 30px;
     width: 100px;
+}
+
+.delete-all {
+    display: block;
+    width: 100px;
+    height: 30px;
 }
 
 header {
@@ -40,8 +53,6 @@ header {
 footer {
     align-self: flex-end;
 }
-
-
 
 .modal {
     display: none;
@@ -112,9 +123,42 @@ input {
 }
 
 .bookCard {
-    font-size: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    padding-top: 15px;
+    font-size: 25px;
     width: 1fr;
     height: 1fr;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
+.close {
+    position: absolute;
+    right: 14px;
+    bottom: 8px;
+    width: 16px;
+    height: 16px;
+    opacity: 0.3;
+}
+
+.close:hover {
+    opacity: 1;
+}
+
+.close:before, .close:after {
+    position: absolute;
+    left: 15px;
+    content: ' ';
+    height: 20px;
+    width: 2px;
+    background-color: #333;
+}
+.close:before {
+    transform: rotate(45deg);
+}
+.close:after {
+    transform: rotate(-45deg);
+}
+  
