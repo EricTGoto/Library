@@ -29,16 +29,11 @@ body {
     gap: 10px;
 }
 
-.add-button {
+.add-button,
+.delete-all-button {
     display: block;
     height: 30px;
     width: 100px;
-}
-
-.delete-all {
-    display: block;
-    width: 100px;
-    height: 30px;
 }
 
 header {
@@ -125,13 +120,20 @@ input {
 .bookCard {
     display: flex;
     flex-direction: column;
+    flex: 1 1 auto;
     align-items: center;
     position: relative;
     padding-top: 15px;
+    padding-left: 10px;
     font-size: 25px;
     width: 1fr;
     height: 1fr;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.bookCard-title,
+.bookCard-author {
+    width: 100%;
 }
 
 .close {
@@ -155,9 +157,11 @@ input {
     width: 2px;
     background-color: #333;
 }
+
 .close:before {
     transform: rotate(45deg);
 }
+
 .close:after {
     transform: rotate(-45deg);
 }

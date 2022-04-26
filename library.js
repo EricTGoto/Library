@@ -13,11 +13,13 @@ const modal = document.querySelector(".modal")
 const modalForm = document.querySelector(".modal-form");
 const inputs = document.querySelectorAll('input');
 const form = document.querySelector('.book-form');
+const deleteAllButton = document.querySelector('.delete-all-button');
 
 modal.addEventListener("click", closeModal);
 modalForm.addEventListener("click", stopBubbling);
 addBookButton.addEventListener("click", openModal);
 form.addEventListener("submit", addBookToLibrary);
+deleteAllButton.addEventListener("click", deleteAllBooks);
 
 function stopBubbling(e) {
     e.stopPropagation();
@@ -48,19 +50,34 @@ function updateBooks() {
     // create book "cards" for every book in myLibrary
     myLibrary.forEach(book => {
         // skips creating a new book card for books already in the contents section
+        console.log(book.title);
         if (document.querySelector(`[class="bookCard ${book.bookNumber}"`)) {return true};
         let bookCard = document.createElement("div");
         bookCard.classList.add("bookCard");
         bookCard.classList.add(book.bookNumber)
-        let bookCardTitle = document.createElement("div");
-        bookCardTitle.textContent = `Title: ${book.title}`;
-        let bookCardAuthor = document.createElement("div");
-        bookCardAuthor.textContent = `Author: ${book.author}`
+        let bookCardTitleSection = document.createElement("div");
+        bookCardTitleSection.classList.add("bookCard-title")
+        let bookCardTitleLabel = document.createElement("div");
+        let bookCardTitleText = document.createElement("span");
+        bookCardTitleLabel.textContent = "Title: ";
+        bookCardTitleLabel.style.display = "inline-block";
+        bookCardTitleText.textContent = book.title;
+        let bookCardAuthorSection = document.createElement("div");
+        bookCardAuthorSection.classList.add("bookCard-author")
+        let bookCardAuthorLabel = document.createElement("div");
+        let bookCardAuthorText = document.createElement("span");
+        bookCardAuthorLabel.textContent = "Author: "
+        bookCardAuthorLabel.style.display = "inline-block";
+        bookCardAuthorText.textContent = book.author;
         let bookCardDeleteButton = document.createElement("div")
         bookCardDeleteButton.classList.add("close");
-        bookCardDeleteButton.addEventListener("click", deleteBook)
-        bookCard.appendChild(bookCardTitle);
-        bookCard.appendChild(bookCardAuthor);
+        bookCardDeleteButton.addEventListener("click", deleteBook);
+        bookCardTitleSection.appendChild(bookCardTitleLabel);
+        bookCardTitleSection.appendChild(bookCardTitleText);
+        bookCardAuthorSection.appendChild(bookCardAuthorLabel);
+        bookCardAuthorSection.appendChild(bookCardAuthorText);
+        bookCard.appendChild(bookCardTitleSection);
+        bookCard.appendChild(bookCardAuthorSection);
         bookCard.appendChild(bookCardDeleteButton);
         content.appendChild(bookCard);
     });
@@ -73,13 +90,16 @@ function deleteBook(e) {
     cardToDelete.remove();
 }
 
+function deleteAllBooks() {
+    myLibrary.length = 0
+    const books = content.childNodes;
+    books.forEach(book => { book.remove() });
+    updateBooks();
+}
+
 function openModal() {
     modal.style.display = "flex";
 }
 
-myLibrary.push(new Book("weubb", "wiwi"))
-myLibrary.push(new Book("we123123ubb", "wiw123123i"))
-myLibrary.push(new Book("weubb", "wiwi"))
-myLibrary.push(new Book("we123123ubb", "wiw123123i"))
-
+myLibrary.push(new Book("Oryx and Crake", "Margaret Atwood"))
 updateBooks();
