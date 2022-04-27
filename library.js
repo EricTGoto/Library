@@ -36,6 +36,7 @@ function Book(title, author, read=false) {
     this.bookNumber =  Math.floor(Math.random() * 10000);
 }
 
+
 function addBookToLibrary(e) {
     e.preventDefault();
     const newBook = new Book(titleInput.value, authorInput.value);
@@ -72,6 +73,28 @@ function updateBooks() {
         let bookCardDeleteButton = document.createElement("div")
         bookCardDeleteButton.classList.add("close");
         bookCardDeleteButton.addEventListener("click", deleteBook);
+
+        let readSwitchLabel = document.createElement("label");
+        readSwitchLabel.setAttribute("for", "read-switch");
+        readSwitchLabel.textContent = "Mark As Read:";
+        readSwitchLabel.classList.add("read-switch-label");
+
+        let readSwitch = document.createElement("label");
+        readSwitch.classList.add("switch");
+        let checkBoxInput = document.createElement("input")
+        checkBoxInput.setAttribute("type", "checkbox");
+        checkBoxInput.setAttribute("id", "read-switch");
+
+        let slider = document.createElement("span");
+        slider.classList.add("slider", "round");
+        readSwitch.appendChild(checkBoxInput);
+        readSwitch.appendChild(slider);
+
+        let switchDiv = document.createElement("div");
+        switchDiv.classList.add("switch-container");
+        switchDiv.appendChild(readSwitchLabel);
+        switchDiv.appendChild(readSwitch);
+
         bookCardTitleSection.appendChild(bookCardTitleLabel);
         bookCardTitleSection.appendChild(bookCardTitleText);
         bookCardAuthorSection.appendChild(bookCardAuthorLabel);
@@ -79,6 +102,7 @@ function updateBooks() {
         bookCard.appendChild(bookCardTitleSection);
         bookCard.appendChild(bookCardAuthorSection);
         bookCard.appendChild(bookCardDeleteButton);
+        bookCard.appendChild(switchDiv);
         content.appendChild(bookCard);
     });
 }
