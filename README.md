@@ -13,3 +13,4 @@ To do/ideas:
     - by read status
     - page count?
 - local storage
+- add tabs to differentiate between read books and unread books
