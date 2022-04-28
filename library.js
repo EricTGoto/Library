@@ -15,11 +15,21 @@ const inputs = document.querySelectorAll('input');
 const form = document.querySelector('.book-form');
 const deleteAllButton = document.querySelector('.delete-all-button');
 
+// event listeners
 modal.addEventListener("click", closeModal);
 modalForm.addEventListener("click", stopBubbling);
 addBookButton.addEventListener("click", openModal);
 form.addEventListener("submit", addBookToLibrary);
 deleteAllButton.addEventListener("click", deleteAllBooks);
+
+function changeBookStyle(e) {
+    console.log(e.target.parentNode.parentNode.parentNode.className);
+    const bookToChange = e.target.parentNode.parentNode.parentNode.className;
+    const bookToChangeId = bookToChange.split(" ")[1];
+    console.log(bookToChangeId);
+    const book = myLibrary.find(book => book.bookNumber === parseInt(bookToChangeId));
+    book.changeStyle()
+}
 
 function stopBubbling(e) {
     e.stopPropagation();
@@ -36,6 +46,15 @@ function Book(title, author, read=false) {
     this.bookNumber =  Math.floor(Math.random() * 10000);
 }
 
+Book.prototype.changeStyle = function() {
+    this.read = !this.read;
+    const bookCard = document.querySelector(`[class="bookCard ${this.bookNumber}"]`)
+    if (this.read) {
+        bookCard.style.backgroundColor = "#b0ddf5";
+    } else {
+        bookCard.style.backgroundColor  = "#96BE8C"
+    }
+}
 
 function addBookToLibrary(e) {
     e.preventDefault();
@@ -81,7 +100,9 @@ function updateBooks() {
 
         let readSwitch = document.createElement("label");
         readSwitch.classList.add("switch");
-        let checkBoxInput = document.createElement("input")
+        readSwitch.addEventListener("change", changeBookStyle);
+
+        let checkBoxInput = document.createElement("input");
         checkBoxInput.setAttribute("type", "checkbox");
         checkBoxInput.setAttribute("id", "read-switch");
 
@@ -127,3 +148,5 @@ function openModal() {
 
 myLibrary.push(new Book("Oryx and Crake", "Margaret Atwood"))
 updateBooks();
+
+
