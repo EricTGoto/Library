@@ -23,10 +23,8 @@ form.addEventListener("submit", addBookToLibrary);
 deleteAllButton.addEventListener("click", deleteAllBooks);
 
 function changeBookStyle(e) {
-    console.log(e.target.parentNode.parentNode.parentNode.className);
     const bookToChange = e.target.parentNode.parentNode.parentNode.className;
     const bookToChangeId = bookToChange.split(" ")[1];
-    console.log(bookToChangeId);
     const book = myLibrary.find(book => book.bookNumber === parseInt(bookToChangeId));
     book.changeStyle()
 }
@@ -48,11 +46,12 @@ function Book(title, author, read=false) {
 
 Book.prototype.changeStyle = function() {
     this.read = !this.read;
-    const bookCard = document.querySelector(`[class="bookCard ${this.bookNumber}"]`)
+    const bookCard = document.querySelector(`[class="bookCard ${this.bookNumber}"]`);
+
     if (this.read) {
         bookCard.style.backgroundColor = "#b0ddf5";
     } else {
-        bookCard.style.backgroundColor  = "#96BE8C"
+        bookCard.style.backgroundColor  = "#96BE8C";
     }
 }
 
@@ -70,7 +69,6 @@ function updateBooks() {
     // create book "cards" for every book in myLibrary
     myLibrary.forEach(book => {
         // skips creating a new book card for books already in the contents section
-        console.log(book.title);
         if (document.querySelector(`[class="bookCard ${book.bookNumber}"`)) {return true};
         let bookCard = document.createElement("div");
         bookCard.classList.add("bookCard");
@@ -148,5 +146,3 @@ function openModal() {
 
 myLibrary.push(new Book("Oryx and Crake", "Margaret Atwood"))
 updateBooks();
-
-
