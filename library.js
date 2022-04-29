@@ -62,64 +62,96 @@ function addBookToLibrary(e) {
     closeModal();
 }
 
+const bookCardFactory = ({title, author, read, bookNumber}) => {
+    // compose parts of book
+    const bookCardContainer = bookCardContainerFactory(bookNumber);
+    const bookCardTitleSection = bookCardTitleFactory(title);
+    const bookCardAuthorSection = bookCardAuthorFactory(author);
+    const bookCardDeleteButton = deleteCardButtonFactory();
+    const readSwitch = readSwitchFactory();
+
+    bookCardContainer.bookCard.appendChild(bookCardTitleSection.bookCardTitleSection);
+    bookCardContainer.bookCard.appendChild(bookCardAuthorSection.bookCardAuthorSection);
+    bookCardContainer.bookCard.appendChild(bookCardDeleteButton.bookCardDeleteButton);
+    bookCardContainer.bookCard.appendChild(readSwitch.switchDiv);
+
+    return {bookCardContainer}
+};
+
+const bookCardContainerFactory = (bookNumber) => {
+    let bookCard = document.createElement("div");
+    bookCard.classList.add("bookCard");
+    bookCard.classList.add(bookNumber)
+    return {bookCard}
+};
+
+const bookCardTitleFactory = (title) => {
+    let bookCardTitleSection = document.createElement("div");
+    bookCardTitleSection.classList.add("bookCard-title")
+    let bookCardTitleLabel = document.createElement("div");
+    let bookCardTitleText = document.createElement("span");
+    bookCardTitleLabel.textContent = "Title: ";
+    bookCardTitleLabel.style.display = "inline-block";
+    bookCardTitleText.textContent = title;
+    bookCardTitleSection.appendChild(bookCardTitleLabel);
+    bookCardTitleSection.appendChild(bookCardTitleText);
+    return {bookCardTitleSection}
+};
+
+const bookCardAuthorFactory = (author) => {
+    let bookCardAuthorSection = document.createElement("div");
+    bookCardAuthorSection.classList.add("bookCard-author")
+    let bookCardAuthorLabel = document.createElement("div");
+    let bookCardAuthorText = document.createElement("span");
+    bookCardAuthorLabel.textContent = "Author: "
+    bookCardAuthorLabel.style.display = "inline-block";
+    bookCardAuthorText.textContent = author;
+    bookCardAuthorSection.appendChild(bookCardAuthorLabel);
+    bookCardAuthorSection.appendChild(bookCardAuthorText);
+    return {bookCardAuthorSection}
+};
+
+const deleteCardButtonFactory = () => {
+    let bookCardDeleteButton = document.createElement("div")
+    bookCardDeleteButton.classList.add("close");
+    bookCardDeleteButton.addEventListener("click", deleteBook);
+    return {bookCardDeleteButton}
+};
+
+const readSwitchFactory = () => {
+    let readSwitchLabel = document.createElement("label");
+    readSwitchLabel.setAttribute("for", "read-switch");
+    readSwitchLabel.textContent = "Mark As Read:";
+    readSwitchLabel.classList.add("read-switch-label");
+
+    let readSwitch = document.createElement("label");
+    readSwitch.classList.add("switch");
+    readSwitch.addEventListener("change", changeBookStyle);
+
+    let checkBoxInput = document.createElement("input");
+    checkBoxInput.setAttribute("type", "checkbox");
+    checkBoxInput.setAttribute("id", "read-switch");
+
+    let slider = document.createElement("span");
+    slider.classList.add("slider", "round");
+    readSwitch.appendChild(checkBoxInput);
+    readSwitch.appendChild(slider);
+
+    let switchDiv = document.createElement("div");
+    switchDiv.classList.add("switch-container");
+    switchDiv.appendChild(readSwitchLabel);
+    switchDiv.appendChild(readSwitch);
+
+    return {switchDiv}
+};
+
 function updateBooks() {
     // create book "cards" for every book in myLibrary
     myLibrary.forEach(book => {
         // skips creating a new book card for books already in the contents section
         if (document.querySelector(`[class="bookCard ${book.bookNumber}"`)) {return true};
-        let bookCard = document.createElement("div");
-        bookCard.classList.add("bookCard");
-        bookCard.classList.add(book.bookNumber)
-        let bookCardTitleSection = document.createElement("div");
-        bookCardTitleSection.classList.add("bookCard-title")
-        let bookCardTitleLabel = document.createElement("div");
-        let bookCardTitleText = document.createElement("span");
-        bookCardTitleLabel.textContent = "Title: ";
-        bookCardTitleLabel.style.display = "inline-block";
-        bookCardTitleText.textContent = book.title;
-        let bookCardAuthorSection = document.createElement("div");
-        bookCardAuthorSection.classList.add("bookCard-author")
-        let bookCardAuthorLabel = document.createElement("div");
-        let bookCardAuthorText = document.createElement("span");
-        bookCardAuthorLabel.textContent = "Author: "
-        bookCardAuthorLabel.style.display = "inline-block";
-        bookCardAuthorText.textContent = book.author;
-        let bookCardDeleteButton = document.createElement("div")
-        bookCardDeleteButton.classList.add("close");
-        bookCardDeleteButton.addEventListener("click", deleteBook);
-
-        let readSwitchLabel = document.createElement("label");
-        readSwitchLabel.setAttribute("for", "read-switch");
-        readSwitchLabel.textContent = "Mark As Read:";
-        readSwitchLabel.classList.add("read-switch-label");
-
-        let readSwitch = document.createElement("label");
-        readSwitch.classList.add("switch");
-        readSwitch.addEventListener("change", changeBookStyle);
-
-        let checkBoxInput = document.createElement("input");
-        checkBoxInput.setAttribute("type", "checkbox");
-        checkBoxInput.setAttribute("id", "read-switch");
-
-        let slider = document.createElement("span");
-        slider.classList.add("slider", "round");
-        readSwitch.appendChild(checkBoxInput);
-        readSwitch.appendChild(slider);
-
-        let switchDiv = document.createElement("div");
-        switchDiv.classList.add("switch-container");
-        switchDiv.appendChild(readSwitchLabel);
-        switchDiv.appendChild(readSwitch);
-
-        bookCardTitleSection.appendChild(bookCardTitleLabel);
-        bookCardTitleSection.appendChild(bookCardTitleText);
-        bookCardAuthorSection.appendChild(bookCardAuthorLabel);
-        bookCardAuthorSection.appendChild(bookCardAuthorText);
-        bookCard.appendChild(bookCardTitleSection);
-        bookCard.appendChild(bookCardAuthorSection);
-        bookCard.appendChild(bookCardDeleteButton);
-        bookCard.appendChild(switchDiv);
-        content.appendChild(bookCard);
+        const bookCard = bookCardFactory(book);
+        content.appendChild(bookCard.bookCardContainer.bookCard);
     });
 }
 
