@@ -37,27 +37,24 @@ function closeModal() {
     modal.style.display = "none";
 }
 
-function Book(title, author, read=false) {
-    this.title = title;
-    this.author = author;
-    this.read = read;
-    this.bookNumber =  Math.floor(Math.random() * 10000);
-}
-
-Book.prototype.changeStyle = function() {
-    this.read = !this.read;
-    const bookCard = document.querySelector(`[class="bookCard ${this.bookNumber}"]`);
-
-    if (this.read) {
-        bookCard.style.backgroundColor = "#b0ddf5";
-    } else {
-        bookCard.style.backgroundColor  = "#96BE8C";
-    }
-}
+const bookFactory = (title, author, read=false) => {
+    const bookNumber = Math.floor(Math.random() * 10000);
+    const changeStyle = function() {
+        console.log("Change");
+        read = !read;
+        const bookCard = document.querySelector(`[class="bookCard ${bookNumber}"]`);
+        if (read) {
+            bookCard.style.backgroundColor = "#b0ddf5";
+        } else {
+            bookCard.style.backgroundColor  = "#96BE8C";
+        }
+    };
+    return {title, author, read, bookNumber, changeStyle}
+};
 
 function addBookToLibrary(e) {
     e.preventDefault();
-    const newBook = new Book(titleInput.value, authorInput.value);
+    const newBook = bookFactory(titleInput.value, authorInput.value);
     myLibrary.push(newBook);
     titleInput.value = "";
     authorInput.value = "";
@@ -144,5 +141,5 @@ function openModal() {
     modal.style.display = "flex";
 }
 
-myLibrary.push(new Book("Oryx and Crake", "Margaret Atwood"))
+myLibrary.push(bookFactory("Oryx and Crake", "Margaret Atwood"));
 updateBooks();
