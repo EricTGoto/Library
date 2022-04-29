@@ -65,14 +65,14 @@ function addBookToLibrary(e) {
 const bookCardFactory = ({title, author, read, bookNumber}) => {
     // compose parts of book
     const bookCardContainer = bookCardContainerFactory(bookNumber);
-    const bookCardTitleSection = bookCardTitleFactory(title);
-    const bookCardAuthorSection = bookCardAuthorFactory(author);
+    const bookCardTitle = bookCardTitleFactory(title);
+    const bookCardAuthor = bookCardAuthorFactory(author);
     const bookCardDeleteButton = deleteCardButtonFactory();
     const readSwitch = readSwitchFactory();
 
-    bookCardContainer.bookCard.appendChild(bookCardTitleSection.bookCardTitleSection);
-    bookCardContainer.bookCard.appendChild(bookCardAuthorSection.bookCardAuthorSection);
-    bookCardContainer.bookCard.appendChild(bookCardDeleteButton.bookCardDeleteButton);
+    bookCardContainer.bookCard.appendChild(bookCardTitle.bookCardTitleDiv);
+    bookCardContainer.bookCard.appendChild(bookCardAuthor.bookCardAuthorDiv);
+    bookCardContainer.bookCard.appendChild(bookCardDeleteButton.deleteButtonDiv);
     bookCardContainer.bookCard.appendChild(readSwitch.switchDiv);
 
     return {bookCardContainer}
@@ -86,16 +86,16 @@ const bookCardContainerFactory = (bookNumber) => {
 };
 
 const bookCardTitleFactory = (title) => {
-    let bookCardTitleSection = document.createElement("div");
-    bookCardTitleSection.classList.add("bookCard-title")
+    let bookCardTitleDiv = document.createElement("div");
+    bookCardTitleDiv.classList.add("bookCard-title")
     let bookCardTitleLabel = document.createElement("div");
     let bookCardTitleText = document.createElement("span");
     bookCardTitleLabel.textContent = "Title: ";
     bookCardTitleLabel.style.display = "inline-block";
     bookCardTitleText.textContent = title;
-    bookCardTitleSection.appendChild(bookCardTitleLabel);
-    bookCardTitleSection.appendChild(bookCardTitleText);
-    return {bookCardTitleSection}
+    bookCardTitleDiv.appendChild(bookCardTitleLabel);
+    bookCardTitleDiv.appendChild(bookCardTitleText);
+    return {bookCardTitleDiv}
 };
 
 const bookCardAuthorFactory = (author) => {
@@ -108,14 +108,14 @@ const bookCardAuthorFactory = (author) => {
     bookCardAuthorText.textContent = author;
     bookCardAuthorSection.appendChild(bookCardAuthorLabel);
     bookCardAuthorSection.appendChild(bookCardAuthorText);
-    return {bookCardAuthorSection}
+    return {bookCardAuthorDiv: bookCardAuthorSection}
 };
 
 const deleteCardButtonFactory = () => {
-    let bookCardDeleteButton = document.createElement("div")
-    bookCardDeleteButton.classList.add("close");
-    bookCardDeleteButton.addEventListener("click", deleteBook);
-    return {bookCardDeleteButton}
+    let deleteButtonDiv = document.createElement("div")
+    deleteButtonDiv.classList.add("close");
+    deleteButtonDiv.addEventListener("click", deleteBook);
+    return {deleteButtonDiv}
 };
 
 const readSwitchFactory = () => {
