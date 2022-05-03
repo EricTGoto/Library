@@ -14,6 +14,14 @@ const modalForm = document.querySelector(".modal-form");
 const inputs = document.querySelectorAll('input');
 const form = document.querySelector('.book-form');
 const deleteAllButton = document.querySelector('.delete-all-button');
+const randomBook = document.querySelector('.random-book');
+
+const createRandomBook = async function() {
+    const {bookTitle, bookAuthor} = await getRandomBookInfo();
+    const newBook = bookFactory(bookTitle, bookAuthor);
+    myLibrary.push(newBook);
+    updateBooks();
+}
 
 // event listeners
 modal.addEventListener("click", closeModal);
@@ -21,6 +29,7 @@ modalForm.addEventListener("click", stopBubbling);
 addBookButton.addEventListener("click", openModal);
 form.addEventListener("submit", addBookToLibrary);
 deleteAllButton.addEventListener("click", deleteAllBooks);
+randomBook.addEventListener("click", createRandomBook);
 
 function changeBookStyle(e) {
     const bookToChange = e.target.parentNode.parentNode.parentNode.className;
@@ -173,5 +182,40 @@ function openModal() {
     modal.style.display = "flex";
 }
 
+const constructUrl = (baseUrl, path) => `${baseUrl}${path}.json`;
+
+
+
 myLibrary.push(bookFactory("Oryx and Crake", "Margaret Atwood"));
 updateBooks();
+
+getRandomBookInfo();
+createRandomBook();
+
+async function getRandomBookInfo() {
+    let baseUrl = "https://openlibrary.org";
+    const worksPath = '/works/OL45883W';
+    const url = constructUrl(baseUrl, worksPath);
+    const response = await getResponse(url);
+    const authorPath = response.authors[0].author.key;
+    const authorUrl = constructUrl(baseUrl, authorPath);
+    let bookTitle = response.title;
+    let bookAuthor = await getBookAuthor(authorUrl);
+    return {bookTitle, bookAuthor}
+}
+
+async function getResponse(url) {
+    const response = fetch(url, {mode: "cors"})
+    return responseJson = await response.then(function(response){
+        return response.json()
+    })
+}
+
+async function getBookAuthor(authorUrl) {
+    const response = fetch(authorUrl, {mode: "cors"})
+    const responseJson = await response.then(function(response) {
+        return response.json()
+    })
+    return responseJson.name
+}
+

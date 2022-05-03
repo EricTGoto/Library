@@ -33,6 +33,7 @@ body {
 }
 
 .add-button,
+.random-book,
 .delete-all-button {
     display: block;
     height: 30px;

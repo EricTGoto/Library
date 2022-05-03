@@ -8,7 +8,6 @@ OOP principles that I have used:
 
 To do/ideas: 
 - random book adding? like wikipedia API to get a random book
-- change colour of card if read
 - responsive on smaller screens
     - min card size, max card size.. mobile?
 - sort cards based on attributes
