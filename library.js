@@ -1,4 +1,5 @@
 let myLibrary = [];
+const BASE_URL = "https://openlibrary.org";
 
 // UI declarations
 const submitBookButton = document.querySelector(".submit-button")
@@ -183,39 +184,36 @@ function openModal() {
 }
 
 const constructUrl = (baseUrl, path) => `${baseUrl}${path}.json`;
-
-
-
-myLibrary.push(bookFactory("Oryx and Crake", "Margaret Atwood"));
-updateBooks();
-
-getRandomBookInfo();
-createRandomBook();
+const generateRandomNumber = () => Math.floor(Math.random() * 1000000 + 35000);
 
 async function getRandomBookInfo() {
-    let baseUrl = "https://openlibrary.org";
-    const worksPath = '/works/OL45883W';
-    const url = constructUrl(baseUrl, worksPath);
-    const response = await getResponse(url);
+    const worksPath = `/works/OL${generateRandomNumber()}W`;    
+    const worksUrl = constructUrl(BASE_URL, worksPath);
+    const response = await getResponse(worksUrl);
     const authorPath = response.authors[0].author.key;
-    const authorUrl = constructUrl(baseUrl, authorPath);
-    let bookTitle = response.title;
-    let bookAuthor = await getBookAuthor(authorUrl);
+    const authorUrl = constructUrl(BASE_URL, authorPath);
+    const bookTitle = response.title;
+    const bookAuthor = await getBookAuthor(authorUrl);
     return {bookTitle, bookAuthor}
 }
 
 async function getResponse(url) {
-    const response = fetch(url, {mode: "cors"})
-    return responseJson = await response.then(function(response){
-        return response.json()
-    })
+    const response = await fetch(url, {mode: "cors"})
+    const responseJson = await response.json();
+    
+    // occasionally the book's information will be located on a different page, so we just have to visit that page
+    if (responseJson.type.key === '/type/redirect') {
+        return getResponse(`https://openlibrary.org${responseJson.location}.json`)
+    } 
+    return responseJson
 }
 
 async function getBookAuthor(authorUrl) {
-    const response = fetch(authorUrl, {mode: "cors"})
-    const responseJson = await response.then(function(response) {
-        return response.json()
-    })
+    const response = await fetch(authorUrl, {mode: "cors"})
+    const responseJson = await response.json()
     return responseJson.name
 }
 
+myLibrary.push(bookFactory("Oryx and Crake", "Margaret Atwood"));
+updateBooks();
+createRandomBook();
