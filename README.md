@@ -20,3 +20,4 @@ To do/ideas:
 - local storage
 - add tabs to differentiate between read books and unread books
 - add read/unread in add book modal
+- truncate random books with long titles
