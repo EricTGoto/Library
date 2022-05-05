@@ -198,20 +198,28 @@ async function getRandomBookInfo() {
 }
 
 async function getResponse(url) {
-    const response = await fetch(url, {mode: "cors"})
-    const responseJson = await response.json();
+    try {
+        const response = await fetch(url, {mode: "cors"})
+        const responseJson = await response.json();
     
-    // occasionally the book's information will be located on a different page, so we just have to visit that page
-    if (responseJson.type.key === '/type/redirect') {
-        return getResponse(`https://openlibrary.org${responseJson.location}.json`)
+        // occasionally the book's information will be located on a different page, so we just have to visit that page
+        if (responseJson.type.key === '/type/redirect') {
+            return getResponse(`https://openlibrary.org${responseJson.location}.json`)
+        } 
+        return responseJson
+    } catch (error) {
+        console.log(error);
     } 
-    return responseJson
 }
 
 async function getBookAuthor(authorUrl) {
-    const response = await fetch(authorUrl, {mode: "cors"})
-    const responseJson = await response.json()
-    return responseJson.name
+    try {
+        const response = await fetch(authorUrl, {mode: "cors"})
+        const responseJson = await response.json()
+        return responseJson.name
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 myLibrary.push(bookFactory("Oryx and Crake", "Margaret Atwood"));

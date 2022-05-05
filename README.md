@@ -6,10 +6,14 @@ OOP principles that I have used:
 - Factory Function pattern
 - Composition
 
+Features:
+- random book adding with the OpenLibrary API
+- 
+
 To do/ideas: 
-- random book adding? like wikipedia API to get a random book
 - responsive on smaller screens
     - min card size, max card size.. mobile?
+- repsonsive on big screens
 - sort cards based on attributes
     - ascending/descending by author, title
     - by read status
