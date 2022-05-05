@@ -8,7 +8,6 @@ OOP principles that I have used:
 
 Features:
 - random book adding with the OpenLibrary API
-- 
 
 To do/ideas: 
 - responsive on smaller screens

@@ -3,8 +3,8 @@ html, body {
     padding: 0px;
     margin: 0px;
     --sidebar-colour: #629460;
-    --content-colour: #96BE8C;
-    --interface-colour: #ACECA1;
+    --unread-colour: #ACECA1;
+    --read-colour: #b0ddf5;
 }
 
 body {
@@ -135,7 +135,7 @@ input {
     height: 1fr;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     border-radius: 8px;
-    background-color: var(--interface-colour);
+    background-color: var(--unread-colour);
 }
 
 .bookCard-title,

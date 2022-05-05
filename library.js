@@ -1,5 +1,7 @@
 let myLibrary = [];
 const BASE_URL = 'https://openlibrary.org';
+const READ_COLOUR = '#b0ddf5';
+const UNREAD_COLOUR = '#ACECA1';
 
 // UI declarations
 const addBookButton = document.querySelector('.add-button');
@@ -41,9 +43,9 @@ const bookFactory = (title, author, read = false) => {
     read = !read;
     const bookCard = document.querySelector(`[class="bookCard ${bookNumber}"]`);
     if (read) {
-      bookCard.style.backgroundColor = '#b0ddf5';
+      bookCard.style.backgroundColor = READ_COLOUR;
     } else {
-      bookCard.style.backgroundColor = '#96BE8C';
+      bookCard.style.backgroundColor = UNREAD_COLOUR;
     }
   };
   return {
