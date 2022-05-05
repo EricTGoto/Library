@@ -1,0 +1,25 @@
+{
+  "name": "Library",
+  "version": "1.0.0",
+  "description": "Library is a project using Javascript OOP knowledge to create a web application where users can store book information that will be displayed on cards. Users can add books in to the \"library\" by filling out a form with information on a book and once the form is submitted, the book is displayed on the web page.",
+  "main": "library.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EricTGoto/Library.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EricTGoto/Library/issues"
+  },
+  "homepage": "https://github.com/EricTGoto/Library#readme",
+  "devDependencies": {
+    "eslint": "^8.14.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0"
+  }
+}
