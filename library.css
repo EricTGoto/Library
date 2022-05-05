@@ -118,8 +118,8 @@ input {
     padding: 50px;
     display: grid;
     gap: 20px;
-    grid-template: repeat(3, 1fr) / repeat(4, 1fr);
-    
+    grid-template: repeat(3, 200px) / repeat(4, 1fr);
+    grid-auto-rows: 200px;
 }
 
 .bookCard {
