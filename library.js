@@ -142,7 +142,8 @@ const createBookCard = function createBookCard(book) {
   // skips creating a new book card for books already in the contents section
   if (document.querySelector(`[class="bookCard ${book.bookNumber}"`)) { return true; }
   const bookCard = bookCardFactory(book);
-  content.appendChild(bookCard.bookCardContainer.bookCard);
+  const libraryContainer = document.querySelector('.library-container');
+  libraryContainer.appendChild(bookCard.bookCardContainer.bookCard);
   return true;
 };
 
