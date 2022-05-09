@@ -14,20 +14,13 @@ const form = document.querySelector('.book-form');
 const deleteAllButton = document.querySelector('.delete-all-button');
 const randomBook = document.querySelector('.random-book');
 
+const tabs = document.querySelectorAll('.tab');
+
 const openModal = function openModal() { modal.style.display = 'flex'; };
 const closeModal = function closeModal() { modal.style.display = 'none'; };
 const stopBubbling = function stopBubbling(e) { e.stopPropagation(); };
 const constructUrl = (baseUrl, path) => `${baseUrl}${path}.json`;
 const generateRandomNumber = () => Math.floor(Math.random() * 1000000 + 35000);
-
-function changeBookStyle(e) {
-  const bookToChange = e.target.parentNode.parentNode.parentNode.className;
-  const bookToChangeId = bookToChange.split(' ')[1];
-  const book = myLibrary.find(
-    (libraryBook) => libraryBook.bookNumber === parseInt(bookToChangeId, 10),
-  );
-  book.changeStyle();
-}
 
 function deleteBook(e) {
   const cardClass = e.target.parentElement.className.split(' ')[1];
@@ -38,25 +31,34 @@ function deleteBook(e) {
 
 const bookFactory = (title, author, read = false) => {
   const bookNumber = Math.floor(Math.random() * 10000);
+  // eslint-disable-next-line prefer-const
+  let bookRead = read;
+  // const tags = [];
   const changeStyle = function changeStyle() {
-    // eslint-disable-next-line no-param-reassign
-    read = !read;
+    this.bookRead = !this.bookRead;
     const bookCard = document.querySelector(`[class="bookCard ${bookNumber}"]`);
-    if (read) {
+    if (this.bookRead) {
       bookCard.style.backgroundColor = READ_COLOUR;
     } else {
       bookCard.style.backgroundColor = UNREAD_COLOUR;
     }
   };
   return {
-    title, author, read, bookNumber, changeStyle,
+    title, author, bookRead, bookNumber, changeStyle,
   };
 };
 
-const bookCardContainerFactory = (bookNumber) => {
+const bookCardContainerFactory = (bookNumber, read) => {
   const bookCard = document.createElement('div');
   bookCard.classList.add('bookCard');
   bookCard.classList.add(bookNumber);
+
+  if (read) {
+    bookCard.style.backgroundColor = READ_COLOUR;
+  } else {
+    bookCard.style.backgroundColor = UNREAD_COLOUR;
+  }
+
   return { bookCard };
 };
 
@@ -93,7 +95,7 @@ const deleteCardButtonFactory = () => {
   return { deleteButtonDiv };
 };
 
-const readSwitchFactory = () => {
+const readSwitchFactory = (read) => {
   const readSwitchLabel = document.createElement('label');
   readSwitchLabel.setAttribute('for', 'read-switch');
   readSwitchLabel.textContent = 'Mark As Read:';
@@ -106,6 +108,7 @@ const readSwitchFactory = () => {
   const checkBoxInput = document.createElement('input');
   checkBoxInput.setAttribute('type', 'checkbox');
   checkBoxInput.setAttribute('id', 'read-switch');
+  checkBoxInput.checked = read;
 
   const slider = document.createElement('span');
   slider.classList.add('slider', 'round');
@@ -121,14 +124,14 @@ const readSwitchFactory = () => {
 };
 
 const bookCardFactory = ({
-  title, author, read, bookNumber,
+  title, author, bookRead, bookNumber,
 }) => {
   // compose parts of book
-  const bookCardContainer = bookCardContainerFactory(bookNumber);
+  const bookCardContainer = bookCardContainerFactory(bookNumber, bookRead);
   const bookCardTitle = bookCardTitleFactory(title);
   const bookCardAuthor = bookCardAuthorFactory(author);
   const bookCardDeleteButton = deleteCardButtonFactory();
-  const readSwitch = readSwitchFactory();
+  const readSwitch = readSwitchFactory(bookRead);
 
   bookCardContainer.bookCard.appendChild(bookCardTitle.bookCardTitleDiv);
   bookCardContainer.bookCard.appendChild(bookCardAuthor.bookCardAuthorDiv);
@@ -142,14 +145,37 @@ const createBookCard = function createBookCard(book) {
   // skips creating a new book card for books already in the contents section
   if (document.querySelector(`[class="bookCard ${book.bookNumber}"`)) { return true; }
   const bookCard = bookCardFactory(book);
-  content.appendChild(bookCard.bookCardContainer.bookCard);
+  const libraryContainer = document.querySelector('.library-container');
+  libraryContainer.appendChild(bookCard.bookCardContainer.bookCard);
   return true;
 };
 
 // create book "cards" for every book in myLibrary
-const updateBooks = function updateBooks() {
-  myLibrary.forEach(((book) => createBookCard(book)));
+const updateBooks = function updateBooks(selectedTab = 'all') {
+  if (selectedTab === 'all') {
+    myLibrary.forEach((book) => {
+      createBookCard(book);
+    });
+  } else if (selectedTab === 'read') {
+    myLibrary.filter((book) => book.bookRead).forEach((book) => {
+      createBookCard(book);
+    });
+  } else if (selectedTab === 'unread') {
+    myLibrary.filter((book) => !book.bookRead).forEach((book) => {
+      createBookCard(book);
+    });
+  }
 };
+
+function changeBookStyle(e) {
+  const bookToChange = e.target.parentNode.parentNode.parentNode.className;
+  const bookToChangeId = bookToChange.split(' ')[1];
+  const book = myLibrary.find(
+    (libraryBook) => libraryBook.bookNumber === parseInt(bookToChangeId, 10),
+  );
+  book.changeStyle();
+  updateBooks();
+}
 
 const addBookToLibrary = function addBookToLibrary(e) {
   e.preventDefault();
@@ -202,7 +228,7 @@ async function getRandomBookInfo() {
 
 const createRandomBook = async function createRandomBook() {
   const { bookTitle, bookAuthor } = await getRandomBookInfo();
-  const newBook = bookFactory(bookTitle, bookAuthor);
+  const newBook = bookFactory(bookTitle, bookAuthor, false);
   myLibrary.push(newBook);
   updateBooks();
 };
@@ -213,6 +239,21 @@ function deleteAllBooks() {
   books.forEach((book) => { book.remove(); });
   updateBooks();
 }
+
+const switchTabs = function switchTabs(e) {
+  const { className } = e.target;
+  const selectedTab = className.split(' ')[0];
+  const libraryContainer = document.querySelector('.library-container');
+  libraryContainer.remove();
+  const newLibraryContainer = document.createElement('div');
+  newLibraryContainer.classList.add('library-container');
+  content.appendChild(newLibraryContainer);
+  updateBooks(selectedTab);
+};
+
+tabs.forEach((tab) => {
+  tab.addEventListener('click', switchTabs);
+});
 
 // event listeners
 modal.addEventListener('click', closeModal);
