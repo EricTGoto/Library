@@ -174,7 +174,8 @@ function changeBookStyle(e) {
     (libraryBook) => libraryBook.bookNumber === parseInt(bookToChangeId, 10),
   );
   book.changeStyle();
-  updateBooks();
+  const selectedTabName = document.querySelector('.tab-selected').className.split(' ')[0];
+  updateBooks(selectedTabName);
 }
 
 const addBookToLibrary = function addBookToLibrary(e) {
