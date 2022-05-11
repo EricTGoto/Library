@@ -240,15 +240,24 @@ function deleteAllBooks() {
   updateBooks();
 }
 
+const highlightAppropriateTab = function highlightAppropriateTab(selectedTabName) {
+  const previouslySelected = document.querySelector('.tab-selected');
+  previouslySelected.classList.remove('tab-selected');
+
+  const selectedTab = document.querySelector(`.${selectedTabName}`);
+  selectedTab.classList.add('tab-selected');
+};
+
 const switchTabs = function switchTabs(e) {
   const { className } = e.target;
-  const selectedTab = className.split(' ')[0];
+  const selectedTabName = className.split(' ')[0];
+  highlightAppropriateTab(selectedTabName);
   const libraryContainer = document.querySelector('.library-container');
   libraryContainer.remove();
   const newLibraryContainer = document.createElement('div');
   newLibraryContainer.classList.add('library-container');
   content.appendChild(newLibraryContainer);
-  updateBooks(selectedTab);
+  updateBooks(selectedTabName);
 };
 
 tabs.forEach((tab) => {
@@ -262,6 +271,10 @@ addBookButton.addEventListener('click', openModal);
 form.addEventListener('submit', addBookToLibrary);
 deleteAllButton.addEventListener('click', deleteAllBooks);
 randomBook.addEventListener('click', createRandomBook);
+
+// tab initialization
+const unreadTab = document.querySelector('.unread');
+unreadTab.classList.add('tab-selected');
 
 myLibrary.push(bookFactory('Oryx and Crake', 'Margaret Atwood'));
 updateBooks();

@@ -142,6 +142,14 @@ input {
     padding: 10px;
 }
 
+.tab:hover {
+    filter: brightness(85%);
+}
+
+.tab-selected {
+    border: #333 1px solid;
+}
+
 .unread {
     background-color: var(--unread-colour);
 }
