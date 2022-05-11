@@ -151,6 +151,10 @@ input {
     border: #333 1px solid;
 }
 
+.all {
+    background-color: #8c73ac;
+}
+
 .unread {
     background-color: var(--unread-colour);
 }
