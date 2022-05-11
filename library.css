@@ -124,8 +124,7 @@ input {
     grid-column: 1 / 5;
 
     display: grid;
-    grid-template-columns: 100px 100px 100px;
-    grid-auto-columns: 100px;
+    grid-template-columns: 1fr 1fr;
 }
 
 .library-container {
@@ -149,10 +148,6 @@ input {
 
 .tab-selected {
     border: #333 1px solid;
-}
-
-.all {
-    background-color: #8c73ac;
 }
 
 .unread {
