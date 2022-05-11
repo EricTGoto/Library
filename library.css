@@ -124,7 +124,8 @@ input {
     grid-column: 1 / 5;
 
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 100px 100px;
+    grid-auto-columns: 100px;
 }
 
 .library-container {
